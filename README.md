@@ -5,6 +5,15 @@ Locarise OAuth clients
 
 ---
 
+This module implements a OAuth 2.0 clients in several popular Django social
+authentication apps. To install this module in your project, install with `pip`
+as follow:
+
+    pip install git+https://github.com/Locarise/locarise-oauth-clients.git
+
+And refer to the corresponding social app.
+
+
 django-allauth Client
 ---------------------
 
@@ -155,7 +164,7 @@ In `urls.py`:
     from django.views.generic import TemplateView
     ...
 
-    urlpatterns += patterns('', 
+    urlpatterns += patterns('',
         url(r'', include('social_auth.urls')),
 
         url(r'^$', TemplateView.as_view(template_name='login.html')),
@@ -167,7 +176,7 @@ In `urls.py`:
 
 In the `login.html` template:
 
-    <p>Use your work email credentials to sign in to this application: 
+    <p>Use your work email credentials to sign in to this application:
       <a href="{% url socialauth_begin 'google-oauth2' %}?next=/secrets">Sign In</a>
     </p>
 
