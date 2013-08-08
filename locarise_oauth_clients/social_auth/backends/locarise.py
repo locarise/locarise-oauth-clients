@@ -27,6 +27,7 @@ class LocariseOAuth2Backend(OAuthBackend):
         ('expires_in', 'expires'),
         ('token_type', 'token_type', True)
     ]
+    ID_KEY = 'uid'
 
     def get_user_details(self, response):
         email = response.get('email', '')
@@ -35,7 +36,7 @@ class LocariseOAuth2Backend(OAuthBackend):
                 'fullname': response.get('first_name', '') + ' ' + response.get('last_name', ''),
                 'first_name': response.get('fist_name', ''),
                 'last_name': response.get('last_name', ''),
-                'id': response.get('id', '')}
+                'id': response.get('uid', '')}
 
 
 class LocariseOAuth2(BaseOAuth2):

@@ -20,7 +20,7 @@ class LocariseOAuth2Adapter(OAuth2Adapter):
         resp = requests.get(self.profile_url,
                             headers={'Authorization': 'Bearer ' + token.token})
         extra_data = resp.json()
-        uid = str(extra_data['id'])
+        uid = str(extra_data['uid'])
         user = get_adapter() \
             .populate_new_user(email=extra_data.get('email'),
                                last_name=extra_data.get('last_name'),

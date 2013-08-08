@@ -177,7 +177,7 @@ In `urls.py`:
 In the `login.html` template:
 
     <p>Use your work email credentials to sign in to this application:
-      <a href="{% url socialauth_begin 'google-oauth2' %}?next=/secrets">Sign In</a>
+      <a href="{% url 'socialauth_begin' 'google-oauth2' %}?next=/">Sign In</a>
     </p>
 
 
