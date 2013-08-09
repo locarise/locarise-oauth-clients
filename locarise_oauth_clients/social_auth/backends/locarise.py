@@ -34,7 +34,7 @@ class LocariseOAuth2Backend(OAuthBackend):
         return {'username': email.split('@', 1)[0],
                 'email': email,
                 'fullname': response.get('first_name', '') + ' ' + response.get('last_name', ''),
-                'first_name': response.get('fist_name', ''),
+                'first_name': response.get('first_name', ''),
                 'last_name': response.get('last_name', ''),
                 'id': response.get('uid', '')}
 
@@ -58,7 +58,7 @@ class LocariseOAuth2(BaseOAuth2):
 def locariseapis_profile(url, access_token):
     """
     Loads user data from Locarise Sane Account Managemt Service, such as name,
-    fist_name, last_name, etc. as it's described in:
+    first_name, last_name, etc. as it's described in:
     https://accounts.locarise.com/userinfo
     """
     #WARNING: This doesn't verify the certificate, should use requests instead
