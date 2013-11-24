@@ -20,6 +20,7 @@ LOCARISE_API_PROFILE = 'https://accounts.locarise.com/userinfo.json'
 
 # Backends
 class LocariseOAuth2Backend(OAuthBackend):
+
     """Locarise OAuth authentication backend"""
     name = 'locarise-oauth2'
     EXTRA_DATA = [
@@ -36,10 +37,13 @@ class LocariseOAuth2Backend(OAuthBackend):
                 'fullname': response.get('first_name', '') + ' ' + response.get('last_name', ''),
                 'first_name': response.get('first_name', ''),
                 'last_name': response.get('last_name', ''),
-                'id': response.get('uid', '')}
+                'is_staff': response.get('is_staff', ''),
+                'locale': response.get('locale', ''),
+                'uid': response.get('uid', '')}
 
 
 class LocariseOAuth2(BaseOAuth2):
+
     """Locarise OAuth2 support"""
     AUTH_BACKEND = LocariseOAuth2Backend
     AUTHORIZATION_URL = 'https://accounts.locarise.com/oauth2/authorize'
@@ -61,9 +65,10 @@ def locariseapis_profile(url, access_token):
     first_name, last_name, etc. as it's described in:
     https://accounts.locarise.com/userinfo
     """
-    #WARNING: This doesn't verify the certificate, should use requests instead
+    # WARNING: This doesn't verify the certificate, should use requests instead
     request = Request(url)
-    request.add_unredirected_header('Authorization', 'Bearer %s' % access_token)
+    request.add_unredirected_header(
+        'Authorization', 'Bearer %s' % access_token)
     try:
         return simplejson.loads(dsa_urlopen(request).read())
     except (ValueError, KeyError, IOError):
