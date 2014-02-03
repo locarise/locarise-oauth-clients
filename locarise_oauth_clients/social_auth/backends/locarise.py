@@ -1,9 +1,9 @@
 """
 Locarise OAuth 2.0 support
 """
-from urllib2 import Request
+import json
 
-from django.utils import simplejson
+from urllib2 import Request
 
 from social_auth.backends import OAuthBackend, BaseOAuth2
 from social_auth.utils import dsa_urlopen
@@ -71,7 +71,7 @@ def locariseapis_profile(url, access_token):
     request.add_unredirected_header(
         'Authorization', 'Bearer %s' % access_token)
     try:
-        return simplejson.loads(dsa_urlopen(request).read())
+        return json.loads(dsa_urlopen(request).read())
     except (ValueError, KeyError, IOError):
         return None
 
