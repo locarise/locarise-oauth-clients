@@ -1,6 +1,7 @@
 """
 Locarise OAuth 2.0 support
 """
+import os
 import json
 
 from urllib2 import Request
@@ -10,12 +11,13 @@ from social_auth.utils import dsa_urlopen
 
 
 # Locarise OAuth2 base configuration
-LOCARISE_OAUTH2_SERVER = 'accounts.locarise.com'
-LOCARISE_OATUH2_AUTHORIZATION_URL = 'https://accounts.locarise.com/oauth2/authorize'
+LOCARISE_OAUTH2_SERVER = os.environ.get('LOCARISE_OAUTH2_SERVER', 'accounts.locarise.com')
+LOCARISE_OAUTH2_TOKEN_URL = os.environ.get('LOCARISE_OAUTH2_TOKEN_URL', 'https://accounts.locarise.com/oauth2/access_token')
+LOCARISE_OAUTH2_AUTHORIZATION_URL = os.environ.get('LOCARISE_OAUTH2_AUTHORIZATION_URL', 'https://accounts.locarise.com/oauth2/authorize')
 
 # scope for user email, specify extra scopes in settings, for example:
 LOCARISE_OAUTH2_SCOPE = ['read']
-LOCARISE_API_PROFILE = 'https://accounts.locarise.com/userinfo.json'
+LOCARISE_API_PROFILE = os.environ.get('LOCARISE_API_PROFILE', 'https://accounts.locarise.com/userinfo.json')
 
 
 # Backends
@@ -47,8 +49,8 @@ class LocariseOAuth2(BaseOAuth2):
 
     """Locarise OAuth2 support"""
     AUTH_BACKEND = LocariseOAuth2Backend
-    AUTHORIZATION_URL = 'https://accounts.locarise.com/oauth2/authorize'
-    ACCESS_TOKEN_URL = 'https://accounts.locarise.com/oauth2/access_token'
+    AUTHORIZATION_URL = LOCARISE_OAUTH2_AUTHORIZATION_URL
+    ACCESS_TOKEN_URL = LOCARISE_OAUTH2_TOKEN_URL
     SETTINGS_KEY_NAME = 'LOCARISE_OAUTH2_CLIENT_ID'
     SETTINGS_SECRET_NAME = 'LOCARISE_OAUTH2_CLIENT_SECRET'
     SCOPE_VAR_NAME = 'LOCARISE_OAUTH_EXTRA_SCOPE'
