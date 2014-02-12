@@ -41,7 +41,6 @@ class LocariseOAuth2Backend(OAuthBackend):
                 'last_name': response.get('last_name', ''),
                 'is_staff': response.get('is_staff', ''),
                 'locale': response.get('locale', ''),
-                'membership_set': response.get('membership_set', ''),
                 'uid': response.get('uid', '')}
 
 
