@@ -58,6 +58,15 @@ Then edit the following files of your Django project:
         'locarise_oauth_clients.allauth.providers.locarise',
     )
 
+    SOCIAL_AUTH_PIPELINE = (
+        'social_auth.backends.pipeline.social.social_auth_user',
+        'locarise_oauth_clients.social_auth.backends.locarise.associate_user_by_uid',
+        'social_auth.backends.pipeline.social.associate_user',
+        'social_auth.backends.pipeline.social.load_extra_data',
+        'social_auth.backends.pipeline.user.update_user_details'
+    )
+
+
 `urls.py`:
 
     urlpatterns = patterns('',

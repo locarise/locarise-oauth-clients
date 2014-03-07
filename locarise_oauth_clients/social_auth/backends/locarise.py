@@ -6,6 +6,7 @@ import json
 
 from urllib2 import Request
 
+from django.contrib.auth import get_user_model
 from social_auth.backends import OAuthBackend, BaseOAuth2
 from social_auth.utils import dsa_urlopen
 
@@ -20,11 +21,15 @@ LOCARISE_OAUTH2_SCOPE = ['read']
 LOCARISE_API_PROFILE = os.environ.get('LOCARISE_API_PROFILE', 'https://accounts.locarise.com/userinfo.json')
 
 
+User = get_user_model()
+
+
 # Backends
 class LocariseOAuth2Backend(OAuthBackend):
 
     """Locarise OAuth authentication backend"""
     name = 'locarise-oauth2'
+
     EXTRA_DATA = [
         ('refresh_token', 'refresh_token', True),
         ('expires_in', 'expires'),
@@ -75,6 +80,18 @@ def locariseapis_profile(url, access_token):
         return json.loads(dsa_urlopen(request).read())
     except (ValueError, KeyError, IOError):
         return None
+
+
+def associate_user_by_uid(backend, user, uid, social_user=None, *args, **kwargs):
+    if user:
+        return {'user': user, 'new_association': False}
+
+    try:
+        user = User.objects.get(uid=uid)
+    except User.DoesNotExist:
+        user = User.objects.create(uid=uid)
+
+    return {'user': user, 'new_association': True}
 
 
 # Backend definition
