@@ -84,14 +84,10 @@ def locariseapis_profile(url, access_token):
 
 def associate_user_by_uid(backend, user, uid, social_user=None, *args, **kwargs):
     if user:
-        return {'user': user, 'new_association': False}
+        return {'user': user, 'social_user': social_user, 'new_association': False}
 
-    try:
-        user = User.objects.get(uid=uid)
-    except User.DoesNotExist:
-        user = User.objects.create(uid=uid)
-
-    return {'user': user, 'new_association': True}
+    user, created = User.objects.get_or_create(uid=uid)
+    return {'user': user, 'social_user': social_user, 'new_association': created}
 
 
 # Backend definition
