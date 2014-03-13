@@ -86,7 +86,9 @@ def associate_user_by_uid(backend, user, uid, social_user=None, *args, **kwargs)
     if user:
         return {'user': user, 'social_user': social_user, 'new_association': False}
 
-    user, created = User.objects.get_or_create(uid=uid)
+    # e-mail has to be set straight away at creation to avoid breaking the
+    # 'unique' condition when multiple accounts are pending.
+    user, created = User.objects.get_or_create(uid=uid, defaults=dict(email=kwargs['details']['email']))
     return {'user': user, 'social_user': social_user, 'new_association': created}
 
 
